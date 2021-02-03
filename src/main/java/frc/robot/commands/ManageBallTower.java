@@ -31,6 +31,7 @@ public class ManageBallTower extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  // checks for every case the ball could be in through the censors.
   @Override
   public void execute() {
     curr_state = RobotContainer.m_Transport.getState();
