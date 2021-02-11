@@ -12,7 +12,7 @@ public class HopperInCmd extends CommandBase {
         balltower = tower;
         addRequirements(balltower);
     }
-
+    //this is a test
     /**
      * The initial subroutine of a command.  Called once when the command is initially scheduled.
      */
