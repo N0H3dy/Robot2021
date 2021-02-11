@@ -19,12 +19,18 @@ public class TowerUp extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    balltower.incrementBallCounter();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    balltower.TowerUp();
+    if (balltower.returnBallCounter() < 3) {
+      balltower.TowerUp();
+    } else {
+      balltower.TowerStop();
+    }
   }
 
   // Called once the command ends or is interrupted.

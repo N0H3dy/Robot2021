@@ -12,10 +12,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.util.Debugger;
 import frc.robot.Robot;
 import frc.robot.Constants.TowerConstants;
+import frc.robot.commands.HopperInCmd;
 import frc.robot.commands.WiggleCmd;
 import frc.team2363.logger.HelixLogger;
 
@@ -46,6 +48,7 @@ public class TransportSystem extends SubsystemBase {
   private DigitalInput levelTwo;
   private DigitalInput levelThree;
 
+  private double ballCounter;
   private double up_speed = 0.3;
   private double down_speed = -0.3;
   private double in_speed = 0.3;
@@ -72,6 +75,7 @@ public class TransportSystem extends SubsystemBase {
     SmartDashboard.putNumber("Down Speed", down_speed);
     SmartDashboard.putNumber("Hopper in Speed", in_speed);
     SmartDashboard.putNumber("Hopper out Speed", out_speed);
+
     
 
     //Helixlogger setup
@@ -79,7 +83,7 @@ public class TransportSystem extends SubsystemBase {
 
     //Default command tries to manage the ball tower states of 0, 1, 2, or 3 balls loaded
     // this.setDefaultCommand(new ManageBallTower());
-    this.setDefaultCommand(new WiggleCmd(this));
+    this.setDefaultCommand(new HopperInCmd(this));
   }
 
   public void TowerUp() {
@@ -142,6 +146,19 @@ public class TransportSystem extends SubsystemBase {
 
   public boolean getHigh() {
     return !(levelThree.get());
+  }
+
+  public void incrementBallCounter(){
+    ballCounter++;
+  }
+
+  public double returnBallCounter(){
+    return ballCounter;
+  }
+
+  public void resetBallCounter(){
+
+    ballCounter = 0;
   }
   public TowerState determineState() {
     boolean low, mid, high;
@@ -292,6 +309,7 @@ public class TransportSystem extends SubsystemBase {
     SmartDashboard.putString("Tower State", getState().toString());
     SmartDashboard.putNumber("Tower Speed", TowerVictor.getMotorOutputPercent());
     SmartDashboard.putNumber("Hopper Speed", HopperVictor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Ball Counter", ballCounter);
 
     if (up != up_speed) up_speed = up;
     if (down != down_speed) down_speed = down;
